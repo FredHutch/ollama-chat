@@ -8,6 +8,7 @@ ollama-chat command-line script main module
 import argparse
 import json
 import os
+import sys
 import threading
 import urllib.request
 import webbrowser
@@ -136,8 +137,10 @@ def main(argv=None):
 
         # Start the backend application
         if not args.quiet:
-            print(f'ollama-chat: Serving at {url} ...')
-        waitress.serve(application_wrap, port=args.port, url_prefix=os.getenv("OLLAMA_CHAT_URL_PREFIX", ""))
+            prefix = os.getenv("OLLAMA_CHAT_URL_PREFIX", "")
+            print(f'ollama-chat: Serving at {url} with prefix {prefix} ...')
+        waitress.serve(application_wrap, port=args.port, url_prefix=prefix)
+        sys.stdout.flush()
 
     # Not starting a backend service, so we must wait on the web browser start
     elif args.browser:
