@@ -68,7 +68,7 @@ def main(argv=None):
         application = OllamaChat(config_path, args.xorigin)
 
     # Construct the URL
-    host = '127.0.0.1'
+    host = os.getenv("OLLAMA_CHAT_HOST", "127.0.0.1")
     url = f'http://{host}:{args.port}/'
     browser_url = url
 
