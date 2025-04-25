@@ -137,7 +137,7 @@ def main(argv=None):
         # Start the backend application
         if not args.quiet:
             print(f'ollama-chat: Serving at {url} ...')
-        waitress.serve(application_wrap, port=args.port)
+        waitress.serve(application_wrap, port=args.port, url_prefix=os.getenv("OLLAMA_CHAT_URL_PREFIX", ""))
 
     # Not starting a backend service, so we must wait on the web browser start
     elif args.browser:
