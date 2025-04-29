@@ -36,7 +36,7 @@ async function ollamaChatModelsPage(args):
         '', \
         if(currentModel, '**Current Model:** ' + currentModel, ''), \
         '', \
-        argsLink(ollamaChatArguments, 'Download Models', objectNew('view', 'download')) \
+        argsLink(ollamaChatArguments, 'List Models', objectNew('view', 'download')) \
     )
 
     # Render the downloading models
@@ -118,11 +118,6 @@ async function ollamaChatModelsPage(args):
                 arrayNew( \
                     formsLinkElements(selectText, selectURL), \
                     if(selected, arrayNew( \
-                        objectNew('text', spacer + '|' + spacer), \
-                        formsLinkButtonElements('Delete', systemPartial(ollamaChatModelsOnDelete, args, modelID)), \
-                        objectNew('text', spacer), \
-                        formsLinkButtonElements('Update', systemPartial(ollamaChatModelsOnDownload, modelID)), \
-                        objectNew('text', spacer), \
                         formsLinkElements('Info', ollamaChatModelsModelURL(modelName)) \
                     )) \
                 ) \
@@ -204,13 +199,17 @@ async function ollamaChatModelsDownloadPage(args):
     endif
 
     # Render the page title
-    title = 'Ollama Chat - Download'
+    title = 'Ollama Chat - List Models'
     documentSetTitle(title)
     markdownPrint( \
         argsLink(ollamaChatArguments, 'Back', objectNew('view', 'models'), true), \
         '', \
         '# ' + markdownEscape(title) \
     )
+
+
+    markdownPrint ('#### To request a model, contact `scicomp@fredhutch.org`.')
+
 
     # Render the filters
     filterSpacer = stringFromCharCode(160) + '|' + stringFromCharCode(160)
@@ -284,10 +283,6 @@ async function ollamaChatModelsDownloadPage(args):
             '**Downloads:** ' + ollamaChatModelsFormatCount(downloads) + ' \\', \
             '**Modified:** ' + modifiedText, \
             '', \
-            argsLink( \
-                ollamaChatArguments, \
-                if(selected, 'Cancel', 'Download'), objectNew('action', if(!selected, 'model'), 'actionID', if(!selected, name)) \
-            ), \
             if(!selected, filterSpacer + '[Info](' + ollamaChatModelsModelURL(name) + ')') \
         )
         if selected:
